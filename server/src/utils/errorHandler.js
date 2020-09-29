@@ -1,0 +1,9 @@
+const errorHandler = (error, req, res, next) => {
+    if (!error){
+        return next()
+    }
+
+    res.status(500).json({ error });
+}
+
+module.exports = errorHandler;
