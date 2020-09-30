@@ -1,18 +1,22 @@
 const asyncHandler = require('express-async-handler')
-const validateEmail = require("../utils/validateEmail");
-const generateToken = require("../utils/generateToken");
-const sendEmail = require("../utils/sendEmail");
+const validateEmail = require("../utils/emailValidator");
+const generateToken = require("../utils/tokenGenerator");
+const sendEmail = require("../utils/emailSender");
 const User = require("../models/user");
 const Token = require("../models/token");
 
-//find user by session
 const getUser = asyncHandler(async (req, res) => {
     const result = await User.findById(req.session.userId);
 
     res.status(200).json(result);
 });
 
-//create user and token for email verification
+const logOut = asyncHandler(async (req, res) => {
+    req.session.destroy();
+
+    res.status(200).json({});
+});
+
 const signUp = asyncHandler(async (req, res) => {
     const bodyUser = req.body;
 
@@ -40,7 +44,6 @@ const signUp = asyncHandler(async (req, res) => {
     res.status(201).json({});
 });
 
-//sign in user with session
 const signIn = asyncHandler(async (req, res) => {
     const { email, password} = req.body;
 
@@ -54,9 +57,10 @@ const signIn = asyncHandler(async (req, res) => {
     res.status(200).json({});
 });
 
-//verify email by token 
 const verifyEmail = asyncHandler(async (req, res) => {
-    const { hash } = req.body;
+    const { hash } = req.query;
+
+    console.log(req.query)
 
     const token = await Token.findOne({ hash }).populate("user");
 
@@ -72,7 +76,6 @@ const verifyEmail = asyncHandler(async (req, res) => {
     res.status(200).json({});
 });
 
-//resend verification
 const resendEmail = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -93,6 +96,7 @@ const resendEmail = asyncHandler(async (req, res) => {
 
 module.exports = {
     getUser,
+    logOut,
     signUp,
     signIn,
     verifyEmail,

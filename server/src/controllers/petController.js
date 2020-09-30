@@ -1,7 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Pet = require("../models/pet");
 
-//create pet
 const create = asyncHandler(async (req, res) => {
     const bodyPet = req.body;
 
@@ -17,26 +16,16 @@ const create = asyncHandler(async (req, res) => {
     res.status(201).json(result);
 });
 
-//get all pets
 const getAll = asyncHandler(async (req, res) => {
     const result = await Pet.find({ user: req.session.userId });
-
-    if (!result) {
-        return res.status(404).json({});
-    }
 
     res.status(200).json(result);
 });
 
-//find pet by alias 
 const findByAlias = asyncHandler(async (req, res) => {
     const { alias } = req.body;
 
     const result = await Pet.findOne({ alias: alias, user: req.session.userId });
-
-    if (!result) {
-        return res.status(404).json({});
-    }
 
     res.status(200).json(result);
 });
