@@ -1,9 +1,9 @@
-import PetService from "../services/petService";
+import PetService from "../services/pet.service";
 
 const petService = new PetService();
 
 const petsLoadAll = () => {
-  const loadedPets = petService.getAllPets();
+  const loadedPets = petService.loadAllPets();
 
   return {
     type: "PETS_LOAD_ALL",
