@@ -1,6 +1,6 @@
 const routesWithoutSession = [
-  "/api/users/signup",
-  "/api/users/signin",
+  "/api/users/signUp",
+  "/api/users/signIn",
   "/api/users/resendEmail",
   "/api/users/verifyEmail",
 ];

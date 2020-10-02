@@ -5,18 +5,16 @@ import PetList from "../PetList";
 
 const HomePage = () => {
   return (
-    <>
-      <Grid container direction="column">
-        <Grid item container>
-          <Grid item xs={2} />
-          <Grid item xs={8}>
-            <Navbar />
-            <PetList />
-          </Grid>
-          <Grid item xs={2} />
+    <Grid container direction="column">
+      <Grid item container>
+        <Grid item xs={2} />
+        <Grid item xs={8}>
+          <Navbar />
+          <PetList />
         </Grid>
+        <Grid item xs={2} />
       </Grid>
-    </>
+    </Grid>
   );
 };
 

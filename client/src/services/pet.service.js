@@ -1,5 +1,5 @@
-export default class PetStoreService {
-  loadAllPets(){
+export default class PetService {
+  getAll() {
     return [
       {
         id: 1,

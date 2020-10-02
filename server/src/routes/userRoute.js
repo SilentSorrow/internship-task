@@ -8,9 +8,9 @@ router.get("/logOut", userController.logOut);
 
 router.get("/verifyEmail", userController.verifyEmail);
 
-router.post("/signup",userController.signUp);
+router.post("/signUp",userController.signUp);
 
-router.post("/signin", userController.signIn);
+router.post("/signIn", userController.signIn);
 
 router.post("/resendEmail", userController.resendEmail);
 

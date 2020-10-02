@@ -8,7 +8,7 @@ const Token = require("../models/token");
 const getUser = asyncHandler(async (req, res) => {
     const result = await User.findById(req.session.userId);
 
-    res.status(200).json(result);
+    res.status(200).json({email: result.email, fullName: result.fullName, age: result.age});
 });
 
 const logOut = asyncHandler(async (req, res) => {
@@ -60,7 +60,7 @@ const signIn = asyncHandler(async (req, res) => {
 const verifyEmail = asyncHandler(async (req, res) => {
     const { hash } = req.query;
 
-    console.log(req.query)
+    console.log(req.query);
 
     const token = await Token.findOne({ hash }).populate("user");
 
