@@ -17,7 +17,7 @@ const getUser = async () => {
   }
 };
 
-const userSignIn = async (user) => {
+const signIn = async (user) => {
   try {
     await userService.signIn(user);
 
@@ -31,7 +31,7 @@ const userSignIn = async (user) => {
   }
 };
 
-const userSignUp = async (user) => {
+const signUp = async (user) => {
   try {
     await userService.signUp(user);
 
@@ -87,4 +87,4 @@ const logOut = async (user) => {
   }
 };
 
-export { getUser, userSignIn, userSignUp, verifyEmail, resendEmail, logOut };
+export { getUser, signIn, signUp, verifyEmail, resendEmail, logOut };

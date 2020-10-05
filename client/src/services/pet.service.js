@@ -1,18 +1,23 @@
+import api from "./api";
+
 export default class PetService {
-  getAll() {
-    return [
-      {
-        id: 1,
-        alias: "Loh",
-        age: 6,
-        breed: "Sobaka"
-      },
-      {
-        id: 2,
-        alias: "Richard",
-        age: 19,
-        breed: "Daun"
-      },
-    ];
+  async getAll() {
+    return await api.get("pets/");
+  };
+
+  async deleteMany(pets) {
+    return await api.post("pets/deleteMany", { pets });
+  };
+
+  async findByAlias(alias) {
+    return await api.post("pets/findByAlias", alias );
+  };
+
+  async update(pet) {
+    return await api.put("pets/", pet );
+  };
+
+  async create(pet) {
+    return await api.post("pets/create", pet );
   };
 };

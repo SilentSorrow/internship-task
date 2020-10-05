@@ -1,21 +1,36 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../actions/user.actions";
-import { HomePage, SignInPage, SignUpPage, VerifyEmailPage } from "../pages";
+import {
+  HomePage,
+  SignInPage,
+  SignUpPage,
+  VerifyEmailPage,
+} from "../pages";
 
 const App = () => {
+  const sessCookie = Cookies.get("SESS_ID");
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.user.error);
+  const userError = useSelector((state) => state.user.error);
+  const petsError = useSelector((state) => state.pets.error);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchUser = async () => {
       dispatch(await getUser());
     };
 
-    !error && fetchUser();
-  }, [dispatch, error]);
+    if (sessCookie) {
+      fetchUser();
+    }
+    if (userError || petsError) {
+      console.log(userError)
+      history.push("/signin")
+    }
+  }, [dispatch, sessCookie, userError, petsError, history]);
 
   return (
     <Switch>

@@ -60,8 +60,6 @@ const signIn = asyncHandler(async (req, res) => {
 const verifyEmail = asyncHandler(async (req, res) => {
     const { hash } = req.query;
 
-    console.log(req.query);
-
     const token = await Token.findOne({ hash }).populate("user");
 
     if (!token) {

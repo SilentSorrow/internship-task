@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../actions/user.actions";
 import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
@@ -10,6 +11,7 @@ const Navbar = () => {
 
   const handleClick = async () => {
     dispatch(await logOut());
+    Cookies.remove("SESS_ID");
   };
 
   return (
@@ -18,12 +20,12 @@ const Navbar = () => {
         <Typography variant="h5">Inva</Typography>
         <div style={{ marginLeft: "auto" }}>
           {user ? (
-            <>
+            <div style={{ display: "flex" }}>
               <Typography variant="h6">{user.fullName}</Typography>
-              <Button variant="contained" onClick={() => handleClick()}>
+              <Button variant="contained" onClick={() => handleClick()} style={{ marginLeft: "20px" }}>
                 Log Out
               </Button>
-            </>
+            </div>
           ) : (
             <>
               <Link to="/signin">

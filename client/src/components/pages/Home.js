@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import Navbar from "../Navbar";
-import PetList from "../PetList";
+import Pets from "../Pets";
 
 const HomePage = () => {
   return (
@@ -10,7 +10,7 @@ const HomePage = () => {
         <Grid item xs={2} />
         <Grid item xs={8}>
           <Navbar />
-          <PetList />
+          <Pets />
         </Grid>
         <Grid item xs={2} />
       </Grid>

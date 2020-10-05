@@ -1,33 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { Grid, TextField, Button } from "@material-ui/core";
-import { userSignIn, resendEmail } from "../../actions/user.actions";
+import { TextField, Button } from "@material-ui/core";
+import CenterContainer from "../CenterContainer";
+import { signIn as userSignIn, resendEmail } from "../../actions/user.actions";
 
 const SignInPage = ({ history }) => {
+  const [flag, setFlag] = useState(false);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
-  const signIn = async (formData) => {
+  const onSignIn = async(formData) => {
+    if (!flag) {
       dispatch(await userSignIn(formData));
+    } else {
+      dispatch(await resendEmail(formData));
+    }
+    history.push("/");
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-      justify="center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Grid item xs={3} >
-        <form onSubmit={handleSubmit(signIn)} style={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "200px"}}>
-          <TextField name="email" label="Email" autoComplete="off" inputRef={register({ required: true })} />
-          <TextField name="password" label="Password" type="password" autoComplete="off" inputRef={register({ required: true })} />
-          <Button variant="contained" type="submit">Sign In</Button>
-        </form>
-      </Grid>
-    </Grid>
+    <CenterContainer>
+      <form
+        onSubmit={handleSubmit(onSignIn)}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "200px",
+        }}
+      >
+        <TextField
+          name="email"
+          label="Email"
+          autoComplete="off"
+          inputRef={register({ required: true })}
+        />
+        <TextField
+          name="password"
+          label="Password"
+          type="password"
+          autoComplete="off"
+          inputRef={register({ required: true })}
+        />
+        <Button variant="contained" type="submit" onClick={() => setFlag(false)}>
+          Sign In
+        </Button>
+        <Button variant="contained" type="submit" onClick={() => setFlag(true)}>
+          Resend email
+        </Button>
+      </form>
+    </CenterContainer>
   );
 };
 
