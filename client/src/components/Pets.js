@@ -25,7 +25,6 @@ const PetList = () => {
           <PetTable />
         </>
       )}
-      <ModalCreate />
     </>
   );
 };

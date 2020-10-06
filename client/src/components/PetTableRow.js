@@ -1,10 +1,9 @@
 import React from "react";
-import { TableRow, TableCell, Checkbox } from "@material-ui/core";
-import ModalUpdate from "./ModalUpdate";
+import { TableRow, TableCell, Checkbox, Button } from "@material-ui/core";
 
-const PetTableRow = ({ pet, onChange }) => {
+const PetTableRow = ({ pet, onChange, onUpdate }) => {
   return (
-    <TableRow key={pet._id}>
+    <TableRow>
       <TableCell align="right">
         <Checkbox onChange={(e) => onChange(e, pet._id)} />
       </TableCell>
@@ -12,7 +11,12 @@ const PetTableRow = ({ pet, onChange }) => {
       <TableCell align="right">{pet.age}</TableCell>
       <TableCell align="right">{pet.breed}</TableCell>
       <TableCell align="right">
-        <ModalUpdate pet={pet} />
+        <Button
+          variant="outlined"
+          onClick={() => onUpdate()}
+        >
+          Update
+        </Button>
       </TableCell>
     </TableRow>
   );

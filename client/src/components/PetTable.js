@@ -10,12 +10,15 @@ import {
   TableCell,
   Paper,
   Typography,
-  Button
+  Button,
 } from "@material-ui/core";
 import PetTableRow from "./PetTableRow";
+import ModalUpdate from "./ModalUpdate";
+import ModalCreate from "./ModalCreate";
 
 const PetTable = () => {
   const [selectedPets, setSelectedPets] = useState([]);
+  const [updatePet, setUpdatePet] = useState({});
   const dispatch = useDispatch();
   const pets = useSelector((state) => state.pets.pets);
 
@@ -41,12 +44,10 @@ const PetTable = () => {
   };
 
   const onDeleteSelected = async () => {
-    if (!selectedPets.length) {
-      return;
+    if (selectedPets.length) {
+      dispatch(await deleteMany(selectedPets));
+      dispatch(await getAll());
     }
-
-    dispatch(await deleteMany(selectedPets));
-    dispatch(await getAll());
   };
 
   return (
@@ -65,23 +66,34 @@ const PetTable = () => {
               <TableCell align="right" style={{ color: "white" }}>
                 <Typography variant="h5">Breed</Typography>
               </TableCell>
-              <TableCell align="right" style={{ color: "white" }}></TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {pets.map((pet) => (
-              <PetTableRow pet={pet} onChange={onChange} />
+              <PetTableRow
+                key={pet._id}
+                pet={pet}
+                onChange={onChange}
+                onUpdate={() => setUpdatePet({ ...updatePet, pet })}
+              />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => onDeleteSelected()}
-      >
-        Delete selected
-      </Button>
+      {updatePet.pet && (
+        <ModalUpdate pet={updatePet.pet} emptyPet={() => setUpdatePet({})} />
+      )}
+      <div style={{ display: "flex" }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => onDeleteSelected()}
+        >
+          Delete selected
+        </Button>
+        <ModalCreate />
+      </div>
     </>
   );
 };

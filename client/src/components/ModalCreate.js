@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { getAll, create } from "../actions/pet.actions";
@@ -30,48 +30,45 @@ const ModalCreate = () => {
     dispatch(await getAll());
   };
 
-
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Create new pet
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">New pet</DialogTitle>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>New pet</DialogTitle>
         <DialogContent>
-          
-        <form
-        onSubmit={handleSubmit(onCreatePet)}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "200px",
-        }}
-      >
-        <TextField
-          name="alias"
-          label="Alias"
-          autoComplete="off"
-          inputRef={register({ required: true })}
-        />
-        <TextField
-          name="age"
-          label="Age"
-          autoComplete="off"
-          inputRef={register({ required: true })}
-        />
-        <TextField
-          name="breed"
-          label="Breed"
-          autoComplete="off"
-          inputRef={register({ required: true })}
-        />
-        <Button variant="contained" type="submit">
-          Create
-        </Button>
-      </form>
-
+          <form
+            onSubmit={handleSubmit(onCreatePet)}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "200px",
+            }}
+          >
+            <TextField
+              name="alias"
+              label="Alias"
+              autoComplete="off"
+              inputRef={register({ required: true })}
+            />
+            <TextField
+              name="age"
+              label="Age"
+              autoComplete="off"
+              inputRef={register({ required: true })}
+            />
+            <TextField
+              name="breed"
+              label="Breed"
+              autoComplete="off"
+              inputRef={register({ required: true })}
+            />
+            <Button variant="contained" type="submit">
+              Create
+            </Button>
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUser } from "../../actions/user.actions";
 import {
   HomePage,
@@ -11,33 +11,26 @@ import {
   VerifyEmailPage,
 } from "../pages";
 
+import ProtectedRoute from "../ProtectedRoute";
+
 const App = () => {
   const sessCookie = Cookies.get("SESS_ID");
   const dispatch = useDispatch();
-  const userError = useSelector((state) => state.user.error);
-  const petsError = useSelector((state) => state.pets.error);
-  const history = useHistory();
 
   useEffect(() => {
     const fetchUser = async () => {
       dispatch(await getUser());
     };
 
-    if (sessCookie) {
-      fetchUser();
-    }
-    if (userError || petsError) {
-      console.log(userError)
-      history.push("/signin")
-    }
-  }, [dispatch, sessCookie, userError, petsError, history]);
+    sessCookie && fetchUser();
+  }, [dispatch, sessCookie]);
 
   return (
     <Switch>
-      <Route path="/" exact component={HomePage} />
-      <Route path="/signin" exact component={SignInPage} />
-      <Route path="/signup" exact component={SignUpPage} />
-      <Route path="/verifyEmail/:hash" exact component={VerifyEmailPage} />
+      <ProtectedRoute path="/" exact component={HomePage} sess={sessCookie}/>
+      <Route path="/signin" exact render={(props) => <SignInPage  { ...props } sess={sessCookie}/>} />
+      <Route path="/signup" exact render={(props) => <SignUpPage  { ...props } sess={sessCookie}/>}  />
+      <Route path="/verifyEmail/:hash" exact component={VerifyEmailPage} sess={sessCookie}/>
     </Switch>
   );
 };

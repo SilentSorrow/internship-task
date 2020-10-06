@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { TextField, Button } from "@material-ui/core";
 import CenterContainer from "../CenterContainer";
 import { signIn as userSignIn, resendEmail } from "../../actions/user.actions";
 
-const SignInPage = ({ history }) => {
+const SignInPage = ({ history, sess }) => {
   const [flag, setFlag] = useState(false);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    sess && history.push("/")
+  }, [sess, history]);
+
   const onSignIn = async(formData) => {
     if (!flag) {
       dispatch(await userSignIn(formData));
+      history.push("/");
     } else {
       dispatch(await resendEmail(formData));
     }
-    history.push("/");
   };
 
   return (
