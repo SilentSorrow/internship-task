@@ -4,14 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { getUser } from "../../actions/user.actions";
-import {
-  HomePage,
-  SignInPage,
-  SignUpPage,
-  VerifyEmailPage,
-} from "../pages";
-
-import ProtectedRoute from "../ProtectedRoute";
+import { HomePage, SignInPage, SignUpPage, VerifyEmailPage } from "../pages";
+import RequiresAuth from "../hoc/RequiresAuth";
+import LoginPageBreak from "../hoc/LoginPageBreak";
 
 const App = () => {
   const sessCookie = Cookies.get("SESS_ID");
@@ -27,10 +22,38 @@ const App = () => {
 
   return (
     <Switch>
-      <ProtectedRoute path="/" exact component={HomePage} sess={sessCookie}/>
-      <Route path="/signin" exact render={(props) => <SignInPage  { ...props } sess={sessCookie}/>} />
-      <Route path="/signup" exact render={(props) => <SignUpPage  { ...props } sess={sessCookie}/>}  />
-      <Route path="/verifyEmail/:hash" exact component={VerifyEmailPage} sess={sessCookie}/>
+      <Route
+        path="/signin"
+        render={(props) => (
+          <LoginPageBreak>
+            <SignInPage { ...props }/>
+          </LoginPageBreak>
+        )}
+      />
+      <Route
+        path="/signup"
+        render={() => (
+          <LoginPageBreak>
+            <SignUpPage />
+          </LoginPageBreak>
+        )}
+      />
+      <Route
+        path="/"
+        render={() => (
+          <RequiresAuth>
+            <HomePage />
+          </RequiresAuth>
+        )}
+      />
+      <Route
+        path="/verifyEmail/:hash"
+        render={() => (
+          <RequiresAuth>
+            <VerifyEmailPage />
+          </RequiresAuth>
+        )}
+      />
     </Switch>
   );
 };

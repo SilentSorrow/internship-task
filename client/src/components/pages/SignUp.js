@@ -1,21 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import CenterContainer from "../CenterContainer";
 import { TextField, Button } from "@material-ui/core";
 import { signUp as userSignUp } from "../../actions/user.actions";
 
-const SignUpPage = ({ history, sess }) => {
+const SignUpPage = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    sess && history.push("/")
-  }, [sess, history]);
-
   const onSignUp = async (formData) => {
     dispatch(await userSignUp(formData));
-    history.push("/");
   };
 
   return (
