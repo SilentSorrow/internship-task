@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAll } from "../actions/pet.actions";
 import SearchForm from "./SearchForm";
 import PetTable from "./PetTable";
-import ModalCreate from "./ModalCreate";
 
 const PetList = () => {
   const dispatch = useDispatch();

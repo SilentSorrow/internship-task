@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { bindActionCreators } from "redux";
 import { Redirect } from "react-router-dom";
-import Cookies from "js-cookie";
 
 class RequiresAuth extends React.Component {
   componentDidMount() {
@@ -17,7 +16,7 @@ class RequiresAuth extends React.Component {
   checkAndRedirect() {
     const { redirect } = this.props;
 
-    if (Cookies.get("SESS_ID")) {
+    if (localStorage.getItem("SESS_ID")) {
       return;
     } 
     
@@ -28,7 +27,7 @@ class RequiresAuth extends React.Component {
   render() {
     return (
       <>
-        {Cookies.get("SESS_ID") ? (
+        {localStorage.getItem("SESS_ID") ? (
           this.props.children
         ) : (
           <Redirect to={"/signin"} />

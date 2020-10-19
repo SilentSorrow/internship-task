@@ -22,7 +22,6 @@ app.use(
 );
 app.use(express.json());
 
-app.use(session);
 app.use(routeProtector);
 
 app.use("/api/users", userController);

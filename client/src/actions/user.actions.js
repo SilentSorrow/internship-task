@@ -19,7 +19,9 @@ const getUser = async () => {
 
 const signIn = async (user) => {
   try {
-    await userService.signIn(user);
+    const { data } = await userService.signIn(user);
+
+    localStorage.setItem("SESS_ID", data.sess);
 
     return {
       type: "",
@@ -47,7 +49,9 @@ const signUp = async (user) => {
 
 const verifyEmail = async (hash) => {
   try {
-    await userService.verifyEmail(hash);
+    const { data } = await userService.verifyEmail(hash);
+
+    localStorage.setItem("SESS_ID", data.sess);
 
     return {
       type: "",

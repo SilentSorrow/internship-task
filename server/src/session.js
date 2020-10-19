@@ -1,17 +1,29 @@
-const session = require("express-session");
+const generateToken = require("./utils/tokenGenerator");
+const bluebird = require("bluebird");
 const redis = require("redis");
-const RedisStore = require('connect-redis')(session)
-const redisClient = redis.createClient()
 
-module.exports = session({
-    name: "SESS_ID",
-    secret: process.env.SESS_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: false,
-      secure: false, 
-      maxAge: 1000 * 60 * 60 * 24 * 30, 
-    },
-    store: new RedisStore({ client: redisClient }),
-});
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+
+const client = redis.createClient();
+
+const createSession = ( userId ) => {
+  const expireTime = 60 * 60;
+  const token = generateToken();
+
+  client.set(token, userId, "EX", expireTime);
+
+  return token;
+}
+
+const getSession = async ( token ) => {
+  const value = await client.getAsync(token);
+
+  return value;
+}
+
+const deleteSession = ( token ) => {
+  client.del(token);
+}
+
+module.exports = { createSession, getSession, deleteSession }

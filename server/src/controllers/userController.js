@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const { createSession, deleteSession } = require("../session");
 const validateEmail = require("../utils/emailValidator");
 const generateToken = require("../utils/tokenGenerator");
 const sendEmail = require("../utils/emailSender");
@@ -6,7 +7,7 @@ const User = require("../models/user");
 const Token = require("../models/token");
 
 const getUser = asyncHandler(async (req, res) => {
-  const result = await User.findById(req.session.userId);
+  const result = await User.findById(req.user.id);
 
   res
     .status(200)
@@ -19,7 +20,8 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const logOut = asyncHandler(async (req, res) => {
-  req.session.destroy();
+  const sess = req.headers["app-auth"];
+  deleteSession(sess);
 
   res.status(200).json({});
 });
@@ -60,8 +62,8 @@ const signIn = asyncHandler(async (req, res) => {
     return res.status(401).json({});
   }
 
-  req.session.userId = user.id;
-  res.status(200).json({});
+  const sess = createSession(user.id);
+  res.status(200).json({ sess });
 });
 
 const verifyEmail = asyncHandler(async (req, res) => {
@@ -77,8 +79,8 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
   await token.remove();
 
-  req.session.userId = token.user.id;
-  res.status(200).json({});
+  const sess = createSession(token.user.id);
+  res.status(200).json({ sess });
 });
 
 const resendEmail = asyncHandler(async (req, res) => {

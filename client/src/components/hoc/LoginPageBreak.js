@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import { bindActionCreators } from "redux";
 import { Redirect } from "react-router-dom";
-import Cookies from "js-cookie";
 
 class LoginPageBreak extends React.Component {
   componentDidMount() {
@@ -16,7 +15,7 @@ class LoginPageBreak extends React.Component {
 
   checkAndRedirect() {
     const { redirect } = this.props;
-    if (Cookies.get("SESS_ID")) {
+    if (localStorage.getItem("SESS_ID")) {
       redirect();
     }
   };
@@ -24,7 +23,7 @@ class LoginPageBreak extends React.Component {
   render() {
     return (
       <>
-        {Cookies.get("SESS_ID") ? <Redirect to={"/"} /> : this.props.children}
+        {localStorage.getItem("SESS_ID") ? <Redirect to={"/"} /> : this.props.children}
       </>
     );
   };

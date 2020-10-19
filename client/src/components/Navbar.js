@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { logOut } from "../actions/user.actions";
@@ -13,7 +12,7 @@ const Navbar = () => {
 
   const handleClick = async () => {
     dispatch(await logOut());
-    Cookies.remove("SESS_ID");
+    localStorage.removeItem("SESS_ID");
     history.push("/signin");
   };
 

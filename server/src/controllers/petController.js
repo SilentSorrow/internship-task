@@ -8,7 +8,7 @@ const create = asyncHandler(async (req, res) => {
         alias: bodyPet.alias,
         age: bodyPet.age,
         breed: bodyPet.breed,
-        user: req.session.userId
+        user: req.user.id
     });
 
     const result = await pet.save();
@@ -17,15 +17,15 @@ const create = asyncHandler(async (req, res) => {
 });
 
 const getAll = asyncHandler(async (req, res) => {
-    const result = await Pet.find({ user: req.session.userId });
-
+    const result = await Pet.find({ user: req.user.id });
+   
     res.status(200).json(result);
 });
 
 const findByAlias = asyncHandler(async (req, res) => {
     const { alias } = req.body;
 
-    const result = await Pet.findOne({ alias: alias, user: req.session.userId });
+    const result = await Pet.findOne({ alias: alias, user: req.user.id });
 
     res.status(200).json(result);
 });
@@ -33,7 +33,8 @@ const findByAlias = asyncHandler(async (req, res) => {
 const deleteMany = asyncHandler(async (req, res) => {
     const { pets } = req.body;
 
-    await Pet.deleteMany({ user: req.session.userId, _id: pets });
+
+    await Pet.deleteMany({ user: req.user.id , _id: pets });
 
     res.status(200).json({});
 });

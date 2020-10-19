@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { getUser } from "../../actions/user.actions";
 import { HomePage, SignInPage, SignUpPage, VerifyEmailPage } from "../pages";
@@ -9,7 +8,7 @@ import RequiresAuth from "../hoc/RequiresAuth";
 import LoginPageBreak from "../hoc/LoginPageBreak";
 
 const App = () => {
-  const sessCookie = Cookies.get("SESS_ID");
+  const sess = localStorage.getItem("SESS_ID");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,8 +16,8 @@ const App = () => {
       dispatch(await getUser());
     };
 
-    sessCookie && fetchUser();
-  }, [dispatch, sessCookie]);
+    sess && fetchUser();
+  }, [dispatch, sess]);
 
   return (
     <Switch>
