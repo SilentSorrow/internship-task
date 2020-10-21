@@ -2,11 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const session = require("./session");
 const errorHandler = require("./middleware/errorHandler");
 const routeProtector = require("./middleware/routeProtector");
-const userController = require("./routes/userRoute");
-const petController = require("./routes/petRoute");
+const userRouter = require("./routes/userRoute");
+const petRouter = require("./routes/petRoute");
 
 app.use(
   cors({
@@ -24,8 +23,8 @@ app.use(express.json());
 
 app.use(routeProtector);
 
-app.use("/api/users", userController);
-app.use("/api/pets", petController);
+app.use("/api/users", userRouter);
+app.use("/api/pets", petRouter);
 
 app.use(errorHandler);
 
