@@ -5,7 +5,7 @@ const redis = require("redis");
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
-const client = redis.createClient();
+const client = redis.createClient({ host: "redis" });
 
 const createSession = ( userId ) => {
   const expireTime = 60 * 60;

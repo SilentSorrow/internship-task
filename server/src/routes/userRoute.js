@@ -7,7 +7,7 @@ router.get("/me", userController.getUser);
 router.get("/logOut", userController.logOut);
 
 router.get("/verifyEmail", userController.verifyEmail);
-
+ 
 router.post("/signUp",userController.signUp);
 
 router.post("/signIn", userController.signIn);
